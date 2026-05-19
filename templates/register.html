@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Daftar Akun{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card"><div class="card-body p-4">
+      <h4 class="mb-3">Buat Akun Mahasiswa</h4>
+      <form method="post">
+        <div class="mb-3"><label class="form-label">Nama Lengkap</label>
+          <input name="nama" class="form-control" required></div>
+        <div class="mb-3"><label class="form-label">Email</label>
+          <input name="email" type="email" class="form-control" required></div>
+        <div class="mb-3"><label class="form-label">Password (min. 6 karakter)</label>
+          <input name="password" type="password" class="form-control" required></div>
+        <div class="mb-3"><label class="form-label">Konfirmasi Password</label>
+          <input name="password2" type="password" class="form-control" required></div>
+        <button class="btn btn-primary w-100">Daftar</button>
+      </form>
+      <p class="mt-3 small text-muted">Sudah punya akun? <a href="{{ url_for('login') }}">Login</a>.</p>
+    </div></div>
+  </div>
+</div>
+{% endblock %}

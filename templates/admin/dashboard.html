@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Dashboard Admin{% endblock %}
+{% block content %}
+<h3 class="mb-3">Dashboard Admin</h3>
+
+<div class="row g-3 mb-3">
+  <div class="col-md-3"><div class="card"><div class="card-body">
+    <div class="text-muted small">Total Pendaftar Baru</div>
+    <div class="h3 mb-0">{{ stats.baru_total }}</div></div></div></div>
+  <div class="col-md-3"><div class="card"><div class="card-body">
+    <div class="text-muted small">Baru Menunggu</div>
+    <div class="h3 mb-0 text-warning">{{ stats.baru_menunggu }}</div></div></div></div>
+  <div class="col-md-3"><div class="card"><div class="card-body">
+    <div class="text-muted small">Total Pendaftar Wisuda</div>
+    <div class="h3 mb-0">{{ stats.wisuda_total }}</div></div></div></div>
+  <div class="col-md-3"><div class="card"><div class="card-body">
+    <div class="text-muted small">Wisuda Menunggu</div>
+    <div class="h3 mb-0 text-warning">{{ stats.wisuda_menunggu }}</div></div></div></div>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item"><a class="nav-link {{ 'active' if tab=='baru' }}" href="{{ url_for('admin_dashboard', tab='baru', status=status) }}">Pendaftaran Mahasiswa Baru</a></li>
+  <li class="nav-item"><a class="nav-link {{ 'active' if tab=='wisuda' }}" href="{{ url_for('admin_dashboard', tab='wisuda', status=status) }}">Pendaftaran Wisuda</a></li>
+</ul>
+
+<div class="card border-top-0"><div class="card-body">
+  <form class="mb-3 d-flex gap-2 align-items-end">
+    <input type="hidden" name="tab" value="{{ tab }}">
+    <div><label class="form-label small">Filter Status</label>
+      <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+        {% for s in ['semua','menunggu','diterima','ditolak'] %}
+          <option value="{{ s }}" {% if status==s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select></div>
+  </form>
+
+  {% if tab == 'baru' %}
+    <div class="table-responsive"><table class="table table-sm align-middle">
+      <thead><tr>
+        <th>#</th><th>Tanggal</th><th>Nama</th><th>Email</th><th>Prodi Tujuan</th>
+        <th>Gelombang</th><th>Status</th><th></th>
+      </tr></thead>
+      <tbody>
+        {% for p in daftar_baru_list %}
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.created_at|tgl }}</td>
+          <td>{{ p.nama_lengkap }}</td>
+          <td class="small">{{ p.user.email }}</td>
+          <td>{{ p.program_studi_tujuan }}</td>
+          <td>{{ p.gelombang or '-' }}</td>
+          <td><span class="badge bg-{{ p.status|status_badge }}">{{ p.status }}</span></td>
+          <td><a class="btn btn-sm btn-outline-primary" href="{{ url_for('admin_detail_baru', pid=p.id) }}">Detail</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-muted">Tidak ada data.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table></div>
+  {% else %}
+    <div class="table-responsive"><table class="table table-sm align-middle">
+      <thead><tr>
+        <th>#</th><th>Tanggal</th><th>Nama</th><th>NIM</th><th>Program Studi</th>
+        <th>IPK</th><th>Status</th><th></th>
+      </tr></thead>
+      <tbody>
+        {% for p in daftar_wisuda_list %}
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.created_at|tgl }}</td>
+          <td>{{ p.nama_lengkap }}</td>
+          <td>{{ p.nim }}</td>
+          <td>{{ p.program_studi }}</td>
+          <td>{{ p.ipk or '-' }}</td>
+          <td><span class="badge bg-{{ p.status|status_badge }}">{{ p.status }}</span></td>
+          <td><a class="btn btn-sm btn-outline-primary" href="{{ url_for('admin_detail_wisuda', pid=p.id) }}">Detail</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-muted">Tidak ada data.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table></div>
+  {% endif %}
+</div></div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Detail Pendaftar Wisuda{% endblock %}
+{% block content %}
+<a href="{{ url_for('admin_dashboard', tab='wisuda') }}" class="btn btn-sm btn-light mb-3">&larr; Kembali</a>
+<h3>Detail Pendaftaran Wisuda #{{ p.id }}</h3>
+
+<div class="row g-3">
+  <div class="col-md-8">
+    <div class="card"><div class="card-body">
+      <h5>Data Mahasiswa</h5>
+      <dl class="row mb-0">
+        <dt class="col-sm-4">Nama Lengkap</dt><dd class="col-sm-8">{{ p.nama_lengkap }}</dd>
+        <dt class="col-sm-4">NIM</dt><dd class="col-sm-8">{{ p.nim }}</dd>
+        <dt class="col-sm-4">Program Studi</dt><dd class="col-sm-8">{{ p.program_studi }}</dd>
+        <dt class="col-sm-4">IPK</dt><dd class="col-sm-8">{{ p.ipk or '-' }}</dd>
+        <dt class="col-sm-4">Tanggal Yudisium</dt><dd class="col-sm-8">{{ p.tanggal_yudisium|tgl }}</dd>
+        <dt class="col-sm-4">No. HP</dt><dd class="col-sm-8">{{ p.no_hp or '-' }}</dd>
+        <dt class="col-sm-4">Email Akun</dt><dd class="col-sm-8">{{ p.user.email }}</dd>
+      </dl>
+    </div></div>
+
+    <div class="card mt-3"><div class="card-body">
+      <h5>Tesis</h5>
+      <dl class="row mb-0">
+        <dt class="col-sm-4">Judul</dt><dd class="col-sm-8">{{ p.judul_tesis }}</dd>
+        <dt class="col-sm-4">Pembimbing 1</dt><dd class="col-sm-8">{{ p.pembimbing_1 or '-' }}</dd>
+        <dt class="col-sm-4">Pembimbing 2</dt><dd class="col-sm-8">{{ p.pembimbing_2 or '-' }}</dd>
+      </dl>
+    </div></div>
+
+    <div class="card mt-3"><div class="card-body">
+      <h5>Dokumen</h5>
+      <ul class="list-unstyled mb-0">
+        <li>Ijazah S1: {% if p.file_ijazah_s1 %}<a href="{{ url_for('serve_upload', filename=p.file_ijazah_s1) }}" target="_blank">lihat</a>{% else %}-{% endif %}</li>
+        <li>Transkrip S2: {% if p.file_transkrip %}<a href="{{ url_for('serve_upload', filename=p.file_transkrip) }}" target="_blank">lihat</a>{% else %}-{% endif %}</li>
+        <li>Lembar Pengesahan: {% if p.file_lembar_pengesahan %}<a href="{{ url_for('serve_upload', filename=p.file_lembar_pengesahan) }}" target="_blank">lihat</a>{% else %}-{% endif %}</li>
+        <li>Bebas Pustaka: {% if p.file_bebas_pustaka %}<a href="{{ url_for('serve_upload', filename=p.file_bebas_pustaka) }}" target="_blank">lihat</a>{% else %}-{% endif %}</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card"><div class="card-body">
+      <h5>Verifikasi</h5>
+      <p>Status saat ini:
+        <span class="badge bg-{{ p.status|status_badge }}">{{ p.status }}</span></p>
+      <form method="post">
+        <div class="mb-3"><label class="form-label">Ubah Status</label>
+          <select name="status" class="form-select">
+            <option value="menunggu" {% if p.status=='menunggu' %}selected{% endif %}>Menunggu</option>
+            <option value="diterima" {% if p.status=='diterima' %}selected{% endif %}>Diterima</option>
+            <option value="ditolak" {% if p.status=='ditolak' %}selected{% endif %}>Ditolak</option>
+          </select></div>
+        <div class="mb-3"><label class="form-label">Catatan</label>
+          <textarea name="catatan_admin" class="form-control" rows="4">{{ p.catatan_admin or '' }}</textarea></div>
+        <button class="btn btn-primary w-100">Simpan</button>
+      </form>
+    </div></div>
+  </div>
+</div>
+{% endblock %}

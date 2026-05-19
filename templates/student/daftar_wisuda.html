@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Pendaftaran Wisuda S2{% endblock %}
+{% block content %}
+<h3 class="mb-3">Formulir Pendaftaran Wisuda S2</h3>
+<form method="post" enctype="multipart/form-data" class="card"><div class="card-body">
+
+  <h5>Data Mahasiswa</h5>
+  <div class="row g-3">
+    <div class="col-md-7"><label class="form-label">Nama Lengkap *</label>
+      <input name="nama_lengkap" class="form-control" required></div>
+    <div class="col-md-3"><label class="form-label">NIM *</label>
+      <input name="nim" class="form-control" required></div>
+    <div class="col-md-2"><label class="form-label">No. HP</label>
+      <input name="no_hp" class="form-control"></div>
+    <div class="col-md-6"><label class="form-label">Program Studi *</label>
+      <select name="program_studi" class="form-select" required>
+        <option value="">- pilih -</option>
+        <option>Magister Manajemen</option>
+        <option>Magister Ilmu Komputer</option>
+        <option>Magister Pendidikan</option>
+        <option>Magister Hukum</option>
+        <option>Magister Teknik</option>
+        <option>Magister Ilmu Lingkungan</option>
+      </select></div>
+    <div class="col-md-3"><label class="form-label">IPK</label>
+      <input name="ipk" type="number" step="0.01" min="0" max="4" class="form-control"></div>
+    <div class="col-md-3"><label class="form-label">Tanggal Yudisium</label>
+      <input name="tanggal_yudisium" type="date" class="form-control"></div>
+  </div>
+
+  <hr class="my-4">
+  <h5>Data Tesis</h5>
+  <div class="row g-3">
+    <div class="col-12"><label class="form-label">Judul Tesis *</label>
+      <textarea name="judul_tesis" class="form-control" rows="2" required></textarea></div>
+    <div class="col-md-6"><label class="form-label">Pembimbing 1</label>
+      <input name="pembimbing_1" class="form-control"></div>
+    <div class="col-md-6"><label class="form-label">Pembimbing 2</label>
+      <input name="pembimbing_2" class="form-control"></div>
+  </div>
+
+  <hr class="my-4">
+  <h5>Dokumen Syarat (PDF/JPG/PNG, maks 5 MB)</h5>
+  <div class="row g-3">
+    <div class="col-md-6"><label class="form-label">Salinan Ijazah S1</label>
+      <input name="file_ijazah_s1" type="file" class="form-control"></div>
+    <div class="col-md-6"><label class="form-label">Transkrip Nilai S2</label>
+      <input name="file_transkrip" type="file" class="form-control"></div>
+    <div class="col-md-6"><label class="form-label">Lembar Pengesahan Tesis</label>
+      <input name="file_lembar_pengesahan" type="file" class="form-control"></div>
+    <div class="col-md-6"><label class="form-label">Surat Bebas Pustaka</label>
+      <input name="file_bebas_pustaka" type="file" class="form-control"></div>
+  </div>
+
+  <div class="mt-4">
+    <button class="btn btn-primary">Kirim Pendaftaran</button>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-light">Batal</a>
+  </div>
+</div></form>
+{% endblock %}
